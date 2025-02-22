@@ -15,6 +15,9 @@ class MainWindow : public QMainWindow {
   public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    
+  signals:
+    void start_generate_number(int numbers_count);
 
   private:
     Ui::MainWindow *ui;
