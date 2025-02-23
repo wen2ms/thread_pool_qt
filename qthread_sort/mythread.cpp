@@ -56,3 +56,53 @@ void BubbleSort::run() {
     
     emit send_sorted_numbers(sorted_numbers_);
 }
+
+QuickSort::QuickSort(QObject *parent) : QThread{parent} {}
+
+void QuickSort::recv_random_numbers(const QVector<int>& random_numbers) {
+    sorted_numbers_ = random_numbers;
+}
+
+void QuickSort::run() {
+    qDebug() << "The thread addree of quick sort:" << QThread::currentThread();
+    
+    QElapsedTimer sort_timer;
+    
+    sort_timer.start();
+    
+    quick_sort(sorted_numbers_, 0, sorted_numbers_.size() - 1);
+    
+    qDebug() << "Total time to quick sort:" << sort_timer.elapsed();
+    
+    emit send_sorted_numbers(sorted_numbers_);
+}
+
+void QuickSort::quick_sort(QVector<int>& sorted_numbers, int left, int right) {
+    if (left < right) {
+        int i = left, j = right;
+        
+        int x = sorted_numbers[left];
+        while (i < j) {
+            while (i < j && sorted_numbers[j] >= x) {
+                j--;
+            }
+            
+            if (i < j) {
+                sorted_numbers[i++] = sorted_numbers[j];
+            }
+            
+            while (i < j && sorted_numbers[i] < x) {
+                i++;
+            }
+            
+            if (i < j) {
+                sorted_numbers[j--] = sorted_numbers[i];
+            }
+        }
+        
+        sorted_numbers[i] = x;
+        
+        quick_sort(sorted_numbers, left, i - 1);
+        quick_sort(sorted_numbers, i + 1, right);
+    }
+}
