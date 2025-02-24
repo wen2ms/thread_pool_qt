@@ -52,6 +52,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             ui->quick_sort_list->addItem(QString::number(sorted_numbers.at(i)));
         }
     });
+    
+    connect(this, &MainWindow::destroyed, this, [=]() {
+        random_generation_thread->quit();
+        random_generation_thread->wait();
+        random_generation_thread->deleteLater();
+        
+        bubble_sort_thread->quit();
+        bubble_sort_thread->wait();
+        bubble_sort_thread->deleteLater();
+        
+        quick_sort_thread->quit();
+        quick_sort_thread->wait();
+        quick_sort_thread->deleteLater();
+        
+        random_generation->deleteLater();
+        bubble_sort->deleteLater();
+        quick_sort->deleteLater();
+    });
 }
 
 MainWindow::~MainWindow() {
