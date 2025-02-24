@@ -23,7 +23,7 @@ void RandomGeneration::run() {
         random_numbers.push_back(QRandomGenerator::global()->bounded(100000));
     }
     
-    qDebug() << "Total time to generate" << numbers_count_ << "random numbers:" << generation_timer.elapsed();
+    qDebug() << "Total time to generate" << numbers_count_ << "random numbers:" << generation_timer.elapsed() << "ms";
     
     emit send_random_numbers(random_numbers);
 }
@@ -52,7 +52,7 @@ void BubbleSort::run() {
         }
     }
     
-    qDebug() << "Total time to bubble sort:" << sort_timer.elapsed();
+    qDebug() << "Total time to bubble sort:" << sort_timer.elapsed() << "ms";
     
     emit send_sorted_numbers(sorted_numbers_);
 }
@@ -72,7 +72,7 @@ void QuickSort::run() {
     
     quick_sort(sorted_numbers_, 0, sorted_numbers_.size() - 1);
     
-    qDebug() << "Total time to quick sort:" << sort_timer.elapsed();
+    qDebug() << "Total time to quick sort:" << sort_timer.elapsed() << "ms";
     
     emit send_sorted_numbers(sorted_numbers_);
 }
